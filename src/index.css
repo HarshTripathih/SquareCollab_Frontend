@@ -18,7 +18,7 @@ code {
 }
 
 .register {
-  height: 96vh;
+  height: 115vh;
   max-width: 400px;
   margin: auto;
   padding: 25px;
@@ -26,6 +26,10 @@ code {
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   background-image: linear-gradient(0deg, #ffdee9 0%, #b5fffc 100%);
+}
+
+.register-button{
+  color: black;
 }
 
 .reg {
