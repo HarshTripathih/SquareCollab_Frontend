@@ -1,28 +1,25 @@
 import React, { useState } from "react";
 
-const SearchBar = () => {
-  const [query, setQuery] = useState('');
+const SearchBar = ({ onSearch }) => {
+  const [searchTerm, setSearchTerm] = useState('');
 
   const handleInputChange = (event) => {
-    setQuery(event.target.value);
+    setSearchTerm(event.target.value);
   };
 
-  const handleFormSubmit = (event) => {
+  const handleSearch = (event) => {
     event.preventDefault();
-    // Perform search or any other action with the query
-    console.log('Searching for:', query);
-    // Reset the query after submitting
-    setQuery('');
+    onSearch(searchTerm);
   };
 
   return (
-    <form className="flex items-center justify-center mt-8" onSubmit={handleFormSubmit}>
+    <form className="flex items-center justify-center mt-8" onSubmit={handleSearch}>
       <div className="relative w-64">
         <input
           type="text"
           className="w-full px-4 py-2 pr-10 leading-tight text-gray-700 bg-gray-200 border border-gray-200 rounded-md appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
           placeholder="Search"
-          value={query}
+          value={searchTerm}
           onChange={handleInputChange}
         />
         <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
