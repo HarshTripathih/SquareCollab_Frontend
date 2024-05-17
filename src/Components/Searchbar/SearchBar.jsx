@@ -4,16 +4,13 @@ const SearchBar = ({ onSearch }) => {
   const [searchTerm, setSearchTerm] = useState('');
 
   const handleInputChange = (event) => {
-    setSearchTerm(event.target.value);
-  };
-
-  const handleSearch = (event) => {
-    event.preventDefault();
-    onSearch(searchTerm);
+    const { value } = event.target;
+    setSearchTerm(value);
+    onSearch(value);
   };
 
   return (
-    <form className="flex items-center justify-center mt-8" onSubmit={handleSearch}>
+    <form className="flex items-center justify-center mt-8">
       <div className="relative w-64">
         <input
           type="text"
@@ -32,12 +29,6 @@ const SearchBar = ({ onSearch }) => {
           </svg>
         </div>
       </div>
-      <button
-        type="submit"
-        className="ml-4 px-4 py-2 text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600"
-      >
-        Search
-      </button>
     </form>
   );
 };

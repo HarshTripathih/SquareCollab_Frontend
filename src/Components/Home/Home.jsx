@@ -27,7 +27,7 @@ const Home = () => {
       <Navbar />
       <Crowsels/>
       <Researchers/>
-
+      
       <div className='container mx-auto w-full h-96 mt-10 border-solid rounded-2xl bg-slate-50'>
         <div className="w-full h-11">
           <h1 className="title">Research Connect</h1>

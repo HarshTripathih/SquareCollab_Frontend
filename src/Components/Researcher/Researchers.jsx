@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import _debounce from 'lodash.debounce';
-import SearchBar from '../Searchbar/SearchBar';
+
 
 const Researchers = () => {
   const [researchers, setResearchers] = useState([]);
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
+ 
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:8000/api/researchers/');
+        const response = await axios.get('http://localhost:8000/api/v1/researchers/');
         setResearchers(response.data);
       } catch (error) {
         setError(error.message);
@@ -21,40 +22,48 @@ const Researchers = () => {
     fetchData();
   }, []);
 
-  const handleSearch = _debounce((term) => {
-    setSearchTerm(term);
+  //search researcher
+  const searchResearchers = _debounce(async (keyword) => {
+    try {
+      const response = await axios.get(`http://localhost:8000/api/v1/search/${keyword}`);
+      setResearchers(response.data);
+    } catch (error) {
+      setError(error.message);
+    }
   }, 500);
 
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
+  const handleInputChange = (event) => {
+    const { value } = event.target;
+    setSearchTerm(value);
+    searchResearchers(value);
+  };
 
   // Filter researchers based on the search term
-  const filteredResearchers = researchers.filter((researcher) => {
-    const lowerCaseTerm = searchTerm.toLowerCase();
-    return (
-      researcher.name.toLowerCase().includes(lowerCaseTerm) ||
-      researcher.position.toLowerCase().includes(lowerCaseTerm) ||
-      researcher.affiliation.toLowerCase().includes(lowerCaseTerm) ||
-      researcher.education.some((edu) => edu.degree.toLowerCase().includes(lowerCaseTerm)) ||
-      researcher.education.some((edu) => edu.institution.toLowerCase().includes(lowerCaseTerm)) ||
-      researcher.publications.some((pub) => pub.title.toLowerCase().includes(lowerCaseTerm)) ||
-      researcher.publications.some((pub) => pub.type.toLowerCase().includes(lowerCaseTerm)) ||
-      researcher.researchProjects.some((project) => project.title.toLowerCase().includes(lowerCaseTerm)) ||
-      researcher.researchProjects.some((project) => project.description.toLowerCase().includes(lowerCaseTerm))
-    );
-  });
+const filteredResearchers = researchers.filter((researcher) => {
+  const lowerCaseTerm = searchTerm.toLowerCase();
+  return (
+    researcher.name.toLowerCase().includes(lowerCaseTerm) ||
+    researcher.affiliation.toLowerCase().includes(lowerCaseTerm) ||
+    researcher.publications.some((pub) => pub.title.toLowerCase().includes(lowerCaseTerm)) ||
+    researcher.publications.some((pub) => pub.type.toLowerCase().includes(lowerCaseTerm)) ||
+    researcher.researchProjects.some((project) => project.title.toLowerCase().includes(lowerCaseTerm)) ||
+    researcher.researchProjects.some((project) => project.description.toLowerCase().includes(lowerCaseTerm))
+  );
+});
+
+
 
   return (
     <div>
-      <div className='container mx-auto w-full h-36 mt-40 border-solid rounded-2xl bg-slate-400'>
-        <span className="box-decoration-clone bg-gradient-to-r from-indigo-600 to-pink-500 rounded-2xl text-center
-       text-white px-8 font-semibold text-5xl ">
-          Our Researchers
-        </span>
-        <SearchBar onSearch={handleSearch} />
-      </div>
       
+      <form>
+        <input
+          type="text"
+          placeholder="Search"
+          value={searchTerm}
+          onChange={handleInputChange}
+        />
+      </form>
 
       <div className="researchers-container mt-20">
         {filteredResearchers.map((researcher) => (
