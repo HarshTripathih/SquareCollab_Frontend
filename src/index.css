@@ -154,6 +154,10 @@ code {
   border-bottom: 1px solid #ffefba;
 }
 
+.title{
+  color: red
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
