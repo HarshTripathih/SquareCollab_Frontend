@@ -9,10 +9,6 @@ const AuthProvider = (props) => {
     token: "",
   });
 
-  //default axios
-
-  axios.defaults.headers.common["Authorization"] = auth?.token;
-
   useEffect(() => {
     const data = localStorage.getItem("auth");
     if (data) {
@@ -23,6 +19,10 @@ const AuthProvider = (props) => {
         token: parseData.token,
       });
     }
+  }, [auth.token]);
+
+  useEffect(() => {
+    axios.defaults.headers.common["Authorization"] = auth?.token;
   }, [auth.token]);
 
   return (
