@@ -5,7 +5,6 @@ import { useEffect } from 'react'; // Import useEffect
 import Navbar from './Components/Header/Navbar';
 import Home from './Components/Home/Home';
 import Footer from './Components/Footer/Footer';
-
 import Login from './Components/Authentication/Login';
 import ForgotPassword from './Components/Authentication/ForgotPassword';
 import Contact from './Components/Contact/Contact';
@@ -14,6 +13,8 @@ import About from './Components/About/About';
 import Register from './Components/Authentication/Regsiter';
 import Faq from './Components/Faq/Faq';
 import Researchers from './Components/Researcher/Researchers';
+import Profile from './Components/Researcher/Profile';
+import ScholarProfile from './Components/Scholar/ScholarProfile';
 
 
 
@@ -97,6 +98,12 @@ const App = () => {
           path="/researchers"
           element={<Researchers />}
         />
+        <Route 
+          path="/researcherprofile" 
+          element={<Profile/>} />
+        <Route 
+          path="/scholarprofile" 
+          element={<ScholarProfile/>} />
         <Route
           path="/dashboard/*"
           element={

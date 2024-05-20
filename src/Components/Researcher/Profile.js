@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import UserMenu from "../../components/Layout/UserMenu";
+// import UserMenu from "../../components/Layout/UserMenu";
 import { useAuth } from "../../context/Auth";
 import toast from "react-hot-toast";
 import axios from "axios";
@@ -101,7 +101,7 @@ const Profile = () => {
       <div className="container-fluid m-3 p-3">
         <div className="row">
           <div className="col-md-3">
-            <UserMenu />
+            {/* <UserMenu /> */}
           </div>
           <div className="col-md-9">
             <div className="form-container">
