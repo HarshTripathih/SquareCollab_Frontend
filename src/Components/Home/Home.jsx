@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import './Home.css';
 import { useNavigate } from 'react-router-dom';
 import SearchBar from '../Searchbar/SearchBar';
@@ -17,9 +17,6 @@ import {
 
 
 const Home = () => {
-  const [showPopup, setShowPopup] = useState(false);
-  const [role, setRole] = useState('');
-  const [redirectPath, setRedirectPath] = useState('');
   const navigate = useNavigate();
 
   const featuress = [
@@ -72,27 +69,13 @@ const Home = () => {
     },
   ];
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setShowPopup(true);
-    }, 5000);
-
-    return () => clearTimeout(timer);
-  }, []);
-
   const handlePopupContinue = () => {
-    if (role === 'researcher') {
-      setRedirectPath('/researcherprofile');
-    } else if (role === 'scholar') {
-      setRedirectPath('/scholarprofile');
-    }
+    // Add your logic here for handling the popup continue button action
   };
 
   useEffect(() => {
-    if (redirectPath) {
-      navigate(redirectPath);
-    }
-  }, [redirectPath, navigate]);
+    // Add any additional useEffect logic if needed
+  }, []);
 
   return (
     <div>

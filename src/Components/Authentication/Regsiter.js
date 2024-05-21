@@ -11,45 +11,12 @@ const Register = () => {
   const [password, setPassword] = useState("");
   const [answer, setAnswer] = useState("");
   const [photo, setPhoto] = useState(null);
+  const [role, setRole] = useState(""); // Added role state
   const navigate = useNavigate();
 
 
-  // submit
-
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-
-  //   try {
-
-  //     const data = {
-  //       name,
-  //       email,
-  //       password,
-  //       photo,
-  //       phone,
-  //       address,
-  //       answer,
-  //     };
-  //     const res = await axios.post("http://localhost:8000/api/v1/auth/register",data,{
-  //       headers: {
-  //         "Content-Type": "multipart/form-data",
-  //       },
-  //     });
-
-  //     if (res.data.success) {
-  //       // alert(res.data.message)
-  //       toast.success(res.data.message);
-  //       navigate("/login");
-  //     } else {
-  //       // alert(res.data.message)
-  //       toast.error(res.data.message);
-  //     }
-  //   } catch (error) {
-  //     console.log(error);
-  //     // alert("Something went wrong")
-  //     toast.error("Something went wrong");
-  //   }
-  // };
+  
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -62,6 +29,7 @@ const Register = () => {
       formData.append("phone", phone);
       formData.append("address", address);
       formData.append("answer", answer);
+      formData.append("role", role); // Include role in the form data
 
       console.log(Object.fromEntries(formData));
 
@@ -82,7 +50,7 @@ const Register = () => {
       toast.error("Something went wrong");
     }
   };
-
+  console.log(role);
   return (
     <div title="Register E-commerce">
       <div className="reg">
@@ -102,6 +70,23 @@ const Register = () => {
                 placeholder="Enter your name"
                 required
               />
+            </div>
+            <div className="mb-3">
+              <label htmlFor="exampleInputRole" className="form-label">
+                Role
+              </label>
+              <select
+                value={role}
+                onChange={(e) => setRole(e.target.value)}
+                className="form-control"
+                id="exampleInputRole"
+                required
+                
+              >
+                <option value="">Select Role</option>
+                <option value="1">Researcher</option>
+                <option value="2">Scholar</option>
+              </select>
             </div>
             <div className="mb-3">
               <label htmlFor="exampleInputEmail1" className="form-label">

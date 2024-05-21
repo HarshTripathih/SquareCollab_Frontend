@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import Button from "./Button";
 import { useAuth } from "../../context/Auth"; // Update the path to your Auth.js file
 
@@ -7,6 +7,7 @@ const Navbar = () => {
   const [auth, setAuth] = useAuth(); // Access the auth state and setter function from the AuthContext
   const [open, setOpen] = useState(false);
   const navigate = useNavigate(); // Access the navigate function
+  const location = useLocation();
 
   const handleLogout = () => {
     // Implement the logout functionality
@@ -20,7 +21,7 @@ const Navbar = () => {
     { name: "Register", link: "/register" },
   ];
 
-  if (auth.user) {
+  if (auth && auth.user) {
     // If the user is authenticated, modify the links accordingly
     links = [
       { name: "Home", link: "/" },
@@ -30,6 +31,14 @@ const Navbar = () => {
       { name: "Contact", link: "/contact" },
       { name: "Logout", link: "#" }, // Updated to use a button for logout
     ];
+
+    if (auth?.user?.role === 1) {
+      // If the user role is 1 (researcher), add the 'Edit Profile' link for researcher profile
+      links.push({ name: "Edit Profile", link: "/researcherprofile" });
+    } else if (auth?.user?.role === 2) {
+      // If the user role is 2 (scholar), add the 'Edit Profile' link for scholar profile
+      links.push({ name: "Edit Profile", link: "/scholarprofile" });
+    }
   }
 
   return (
@@ -43,6 +52,7 @@ const Navbar = () => {
             Square<span className="title">Collab</span>
           </p>
         </div>
+        {auth?.user && <li>Welcome Mr.{auth?.user?.name}!</li>}
 
         <div
           onClick={() => setOpen(!open)}
@@ -68,14 +78,16 @@ const Navbar = () => {
               ) : (
                 <NavLink
                   to={link.link}
-                  className="text-gray-800 hover:text-gray-400 duration-500"
+                  className={`text-gray-800 hover:text-gray-400 duration-500 ${
+                    location.pathname === link.link ? "font-bold" : ""
+                  }`}
                 >
                   {link.name}
                 </NavLink>
               )}
             </li>
           ))}
-          {!auth.user && (
+          {!auth?.user && (
             <li className="md:ml-8 text-xl md:my-0 my-7">
               <Button>Get Started</Button>
             </li>
