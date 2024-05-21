@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import Button from './Button';
 import { useAuth } from '../../context/Auth'; // Update the path to your Auth.js file
 
@@ -7,6 +7,7 @@ const Navbar = () => {
   const [auth, setAuth] = useAuth(); // Access the auth state and setter function from the AuthContext
   const [open, setOpen] = useState(false);
   const navigate = useNavigate(); // Access the navigate function
+  const location = useLocation();
 
   const handleLogout = () => {
     // Implement the logout functionality
@@ -20,7 +21,7 @@ const Navbar = () => {
     { name: 'Register', link: '/register' },
   ];
 
-  if (auth.user) {
+  if (auth && auth.user) {
     // If the user is authenticated, modify the links accordingly
     links = [
       { name: 'Home', link: '/' },
@@ -31,6 +32,16 @@ const Navbar = () => {
       { name: 'Contact', link: '/contact' },
       { name: 'Logout', link: '/logout' },
     ];
+    console.log(auth);
+    console.log(auth?.user?.role);
+
+    if (auth?.user?.role === 1) {
+      // If the user role is 1 (researcher), add the 'Edit Profile' link for researcher profile
+      links.push({ name: 'Edit Profile', link: '/researcherprofile' });
+    } else if (auth?.user?.role === 2) {
+      // If the user role is 2 (scholar), add the 'Edit Profile' link for scholar profile
+      links.push({ name: 'Edit Profile', link: '/scholarprofile' });
+    }
   }
 
   return (
@@ -44,6 +55,7 @@ const Navbar = () => {
             Square<span className="title">Collab</span>
           </p>
         </div>
+        <li>Welcome Mr.{auth?.user?.name}!</li>
 
         <div
           onClick={() => setOpen(!open)}
@@ -53,9 +65,8 @@ const Navbar = () => {
         </div>
 
         <ul
-          className={`md:flex md:items-center md:pb-0 pb-12 absolute md:static bg-white md:z-auto z-[-1] left-0 w-full md:w-auto md:pl-0 pl-9 transition-all duration-500 ease-in ${
-            open ? 'top-20 ' : 'top-[-490px]'
-          }`}
+          className={`md:flex md:items-center md:pb-0 pb-12 absolute md:static bg-white md:z-auto z-[-1] left-0 w-full md:w-auto md:pl-0 pl-9 transition-all duration-500 ease-in ${open ? 'top-20 ' : 'top-[-490px]'
+            }`}
         >
           {links.map((link) => (
             <li key={link.name} className="md:ml-8 text-xl md:my-0 my-7">
@@ -69,7 +80,7 @@ const Navbar = () => {
               ) : (
                 <NavLink
                   to={link.link}
-                  className="text-gray-800 hover:text-gray-400 duration-500"
+                  className={`text-gray-800 hover:text-gray-400 duration-500 ${location.pathname === link.link ? 'font-bold' : ''}`}
                 >
                   {link.name}
                 </NavLink>

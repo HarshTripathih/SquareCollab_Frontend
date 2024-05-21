@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import './Home.css';
 import { useNavigate } from 'react-router-dom';
 import SearchBar from '../Searchbar/SearchBar';
@@ -9,9 +9,6 @@ import Crowsels from './Crowsels';
 import Profile from '../Researcher/Profile';
 
 const Home = () => {
-  const [showPopup, setShowPopup] = useState(false);
-  const [role, setRole] = useState('');
-  const [redirectPath, setRedirectPath] = useState('');
   const navigate = useNavigate();
 
   const features = [
@@ -25,27 +22,13 @@ const Home = () => {
     },
   ];
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setShowPopup(true);
-    }, 5000);
-
-    return () => clearTimeout(timer);
-  }, []);
-
   const handlePopupContinue = () => {
-    if (role === 'researcher') {
-      setRedirectPath('/researcherprofile');
-    } else if (role === 'scholar') {
-      setRedirectPath('/scholarprofile');
-    }
+    // Add your logic here for handling the popup continue button action
   };
 
   useEffect(() => {
-    if (redirectPath) {
-      navigate(redirectPath);
-    }
-  }, [redirectPath, navigate]);
+    // Add any additional useEffect logic if needed
+  }, []);
 
   return (
     <div>
@@ -71,48 +54,6 @@ const Home = () => {
           </div>
         </div>
       </div>
-
-      {showPopup && (
-        <div className="modal" style={{ display: 'block' }}>
-          <div className="modal-dialog modal-dialog-centered">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title">Choose your role</h5>
-              </div>
-              <div className="modal-body">
-                <label>
-                  Researcher
-                  <input
-                    type="radio"
-                    name="role"
-                    value="researcher"
-                    onChange={(e) => setRole(e.target.value)}
-                  />
-                </label>
-                <label>
-                  Scholar
-                  <input
-                    type="radio"
-                    name="role"
-                    value="scholar"
-                    onChange={(e) => setRole(e.target.value)}
-                  />
-                </label>
-              </div>
-              <div className="modal-footer">
-                <button
-                  type="button"
-                  className="btn btn-primary"
-                  onClick={handlePopupContinue}
-                  disabled={!role}
-                >
-                  Continue
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 };
