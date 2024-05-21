@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import _debounce from "lodash.debounce";
+import { Link, useNavigate } from "react-router-dom";
+
 
 const Researchers = () => {
   const [researchers, setResearchers] = useState([]);
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -59,7 +62,7 @@ const Researchers = () => {
         />
       </form>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-5 text-left">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-5 text-left justify-content-around">
         {filteredResearchers.map((researcher) => (
           <div className="bg-white rounded-lg shadow-lg" key={researcher.id}>
             <img
@@ -91,7 +94,12 @@ const Researchers = () => {
               </div>
               <div className="flex justify-between">
                 <button className="btn btn-primary chat">Chat</button>
-                <button className="btn btn-secondary chat">More Details</button>
+                <button
+                  className="btn btn-secondary"
+                  onClick={() => navigate(`/researchers/${researcher.id}`)}
+                >
+                  More Details
+                </button>
               </div>
             </div>
           </div>

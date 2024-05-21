@@ -16,6 +16,7 @@ import Researchers from './Components/Researcher/Researchers';
 import Profile from './Components/Researcher/Profile';
 import ScholarProfile from './Components/Scholar/ScholarProfile';
 import Scholars from './Components/Scholar/Scholars';
+import ResearcherDetails from './Components/Researcher/ResearcherDetails';
 
 
 
@@ -65,6 +66,7 @@ const App = () => {
         <Route path="/about" element={<About />} />
         <Route path="/faq" element={<Faq />} />
         <Route path="/researchers" element={<Researchers />} />
+        <Route path="/researchers/:id" component={ResearcherDetails} />
         <Route path="/scholars" element={<Scholars />} />
         <Route path="/researcherprofile" element={<Profile />} />
         <Route path="/scholarprofile" element={<ScholarProfile />} />
