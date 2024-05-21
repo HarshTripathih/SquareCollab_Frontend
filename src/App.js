@@ -18,16 +18,13 @@ import ScholarProfile from './Components/Scholar/ScholarProfile';
 
 
 
-// Protected Route Component
 const PrivateRoute = ({ element }) => {
   const { auth } = useAuth();
 
   if (!auth?.token) {
-    // User is not logged in, redirect to login
     return <Navigate to="/login" />;
   }
 
-  // User is logged in, allow access to the route
   return element;
 };
 

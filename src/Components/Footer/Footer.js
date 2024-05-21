@@ -12,7 +12,6 @@ const Footer = () => {
           <div className="space-x-4">
             <Link to="/about">About</Link>
             <Link to="/contact">Contact</Link>
-            <Link to="/policy">Privacy Policy</Link>
             <Link to="/faq"> FAQ's</Link>
           </div>
         </div>

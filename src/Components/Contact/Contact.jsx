@@ -22,7 +22,7 @@ const Contact = () => {
 
     <div class='Container flex m-16 fixed'>
       <div class='Wrapper'>
-        <div class='Title text-3xl sm:text-4xl md:text-5xl mb-4'>Contact US</div>
+        <div class='Title text-3xl sm:text-4xl md:text-5xl mb-4 mt-5'>Contact US</div>
         <div class='Desc text-lg sm:text-xl md:text-2xl mb-8'>Feel free to reach out to us for any questions or opportunities!</div>
         <form class='ContactForm w-full max-w-lg' ref={form} onSubmit={handleSubmit}>
           <div class='ContactTitle text-xl sm:text-2xl font-semibold mb-2'>Email Us</div>
@@ -33,8 +33,8 @@ const Contact = () => {
           <button class='ContactButton bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded' type="submit">Send</button>
         </form>
         <div class="ContactInfo p-2 w-full max-w-lg pt-8 mt-8 border-t border-gray-200 text-center">
-          <a class="text-indigo-500 block mb-2">example@email.com</a>
-          <p class="leading-normal my-2">49 Smith St.<br />Saint Cloud, MN 56301</p>
+          <a class="text-indigo-500 block mb-2">squarecollabofficial@gmail.com</a>
+          <p class="leading-normal my-2">LPU . Jalandhar<br />Punjab</p>
         </div>
         <Snackbar
           open={open}
