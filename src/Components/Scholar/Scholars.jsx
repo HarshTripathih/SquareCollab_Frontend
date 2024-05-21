@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import _debounce from "lodash.debounce";
 
-const Researchers = () => {
-  const [researchers, setResearchers] = useState([]);
+const Scholars = () => {
+  const [scholars, setScholars] = useState([]);
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -11,9 +11,9 @@ const Researchers = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:8000/api/v1/researchers/"
+          "http://localhost:8000/api/v1/scholars/"
         );
-        setResearchers(response.data);
+        setScholars(response.data);
       } catch (error) {
         setError(error.message);
       }
@@ -22,12 +22,12 @@ const Researchers = () => {
     fetchData();
   }, []);
 
-  const searchResearchers = _debounce(async (keyword) => {
+  const searchScholars = _debounce(async (keyword) => {
     try {
       const response = await axios.get(
         `http://localhost:8000/api/v1/search/${keyword}`
       );
-      setResearchers(response.data);
+      setScholars(response.data);
     } catch (error) {
       setError(error.message);
     }
@@ -36,14 +36,14 @@ const Researchers = () => {
   const handleInputChange = (event) => {
     const { value } = event.target;
     setSearchTerm(value);
-    searchResearchers(value);
+    searchScholars(value);
   };
 
-  const filteredResearchers = researchers.filter((researcher) => {
+  const filteredScholars = scholars.filter((scholar) => {
     const lowerCaseTerm = searchTerm.toLowerCase();
     return (
-      researcher.name.toLowerCase().includes(lowerCaseTerm) ||
-      researcher.affiliation.toLowerCase().includes(lowerCaseTerm)
+      scholar.name.toLowerCase().includes(lowerCaseTerm) ||
+      scholar.affiliation.toLowerCase().includes(lowerCaseTerm)
     );
   });
 
@@ -60,29 +60,28 @@ const Researchers = () => {
       </form>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-5 text-left">
-        {filteredResearchers.map((researcher) => (
-          <div className="bg-white rounded-lg shadow-lg" key={researcher.id}>
+        {filteredScholars.map((scholar) => (
+          <div className="bg-white rounded-lg shadow-lg" key={scholar.id}>
             <img
-              src={researcher.photo}
-              alt={researcher.name}
+              src={scholar.photo}
+              alt={scholar.name}
               className="w-full h-48 object-cover rounded-t-lg"
             />
             <div className="p-4">
               <h5 className="font-semibold text-lg mb-2">
-                Name: {researcher.name}
+                Name: {scholar.name}
               </h5>
               <p className="text-sm mb-2">
-                <b>Affiliation:</b> {researcher.affiliation}
+                <b>Affiliation:</b> {scholar.affiliation}
               </p>
               <p className="text-sm mb-2">
-                <b>Position:</b>
-                {researcher.position}
+                <b>Title:</b> {scholar.title}
               </p>
               <div className="mb-4">
                 <h6 className="font-semibold">Education:</h6>
-                {researcher.education &&
-                  researcher.education.map((edu) => (
-                    <div key={edu.id}>
+                {scholar.education &&
+                  scholar.education.map((edu, index) => (
+                    <div key={index}>
                       <p>Degree: {edu.degree}</p>
                       <p>Institution: {edu.institution}</p>
                       <p>Graduation Year: {edu.graduationYear}</p>
@@ -101,4 +100,4 @@ const Researchers = () => {
   );
 };
 
-export default Researchers;
+export default Scholars;

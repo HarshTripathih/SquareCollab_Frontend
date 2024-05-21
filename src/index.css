@@ -177,6 +177,11 @@ code {
   color: red;
 }
 
+
+.chat{
+  width: 8rem;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

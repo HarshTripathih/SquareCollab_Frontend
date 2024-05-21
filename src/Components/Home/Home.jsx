@@ -1,12 +1,13 @@
-import React, { useEffect } from 'react';
-import './Home.css';
-import { useNavigate } from 'react-router-dom';
-import SearchBar from '../Searchbar/SearchBar';
-import Navbar from '../Header/Navbar';
-import ResearcherCard from '../Researcher/ResearcherCard';
-import Researchers from '../Researcher/Researchers';
-import Crowsels from './Crowsels';
-import Profile from '../Researcher/Profile';
+import React, { useEffect } from "react";
+import "./Home.css";
+import { useNavigate } from "react-router-dom";
+import SearchBar from "../Searchbar/SearchBar";
+import Navbar from "../Header/Navbar";
+import ResearcherCard from "../Researcher/ResearcherCard";
+import Researchers from "../Researcher/Researchers";
+import Crowsels from "./Crowsels";
+import Profile from "../Researcher/Profile";
+
 import {
   FaUser,
   FaUserEdit,
@@ -14,7 +15,6 @@ import {
   FaComments,
   FaLightbulb,
 } from "react-icons/fa";
-
 
 const Home = () => {
   const navigate = useNavigate();
@@ -26,33 +26,33 @@ const Home = () => {
     "Project Management",
   ];
 
-   const steps = [
-     {
-       icon: FaUser,
-       title: "Register/Login",
-       description: "Register/Login on the platform",
-     },
-     {
-       icon: FaUserEdit,
-       title: "Complete Your Profile",
-       description: "Complete your profile",
-     },
-     {
-       icon: FaSearch,
-       title: "Find Supervisor/Scholar",
-       description: "Find Supervisor/Scholar as per requirements",
-     },
-     {
-       icon: FaComments,
-       title: "Chat or Connect",
-       description: "Chat or connect with them",
-     },
-     {
-       icon: FaLightbulb,
-       title: "Collaborate & Innovate",
-       description: "Start collaborating and innovating",
-     },
-   ];
+  const steps = [
+    {
+      icon: FaUser,
+      title: "Register/Login",
+      description: "Register/Login on the platform",
+    },
+    {
+      icon: FaUserEdit,
+      title: "Complete Your Profile",
+      description: "Complete your profile",
+    },
+    {
+      icon: FaSearch,
+      title: "Find Supervisor/Scholar",
+      description: "Find Supervisor/Scholar as per requirements",
+    },
+    {
+      icon: FaComments,
+      title: "Chat or Connect",
+      description: "Chat or connect with them",
+    },
+    {
+      icon: FaLightbulb,
+      title: "Collaborate & Innovate",
+      description: "Start collaborating and innovating",
+    },
+  ];
 
   const features = [
     {
@@ -69,8 +69,8 @@ const Home = () => {
     },
   ];
 
-  const handlePopupContinue = () => {
-    // Add your logic here for handling the popup continue button action
+  const handleRedirect = () => {
+    navigate("/discover");
   };
 
   useEffect(() => {
@@ -113,7 +113,10 @@ const Home = () => {
           <p className="text-lg mb-4">
             Seamless collaboration between researchers and supervisors.
           </p>
-          <button className="bg-blue-500 text-white py-2 px-4 rounded">
+          <button
+            onClick={handleRedirect}
+            className="bg-blue-500 text-white py-2 px-4 rounded"
+          >
             Join Now
           </button>
         </section>

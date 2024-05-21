@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import Button from "./Button";
 import { useAuth } from "../../context/Auth"; // Update the path to your Auth.js file
+import UserDropdown from "./UserDropdown"; // Import the UserDropdown component
 
 const Navbar = () => {
   const [auth, setAuth] = useAuth(); // Access the auth state and setter function from the AuthContext
@@ -28,17 +29,9 @@ const Navbar = () => {
       { name: "Discover", link: "/discover" },
       { name: "About", link: "/about" },
       { name: "Researchers", link: "/researchers" },
+      { name: "Scholars", link: "/scholars" },
       { name: "Contact", link: "/contact" },
-      { name: "Logout", link: "#" }, // Updated to use a button for logout
     ];
-
-    if (auth?.user?.role === 1) {
-      // If the user role is 1 (researcher), add the 'Edit Profile' link for researcher profile
-      links.push({ name: "Edit Profile", link: "/researcherprofile" });
-    } else if (auth?.user?.role === 2) {
-      // If the user role is 2 (scholar), add the 'Edit Profile' link for scholar profile
-      links.push({ name: "Edit Profile", link: "/scholarprofile" });
-    }
   }
 
   return (
@@ -52,7 +45,6 @@ const Navbar = () => {
             Square<span className="title">Collab</span>
           </p>
         </div>
-        {auth?.user && <li>Welcome Mr.{auth?.user?.name}!</li>}
 
         <div
           onClick={() => setOpen(!open)}
@@ -68,26 +60,21 @@ const Navbar = () => {
         >
           {links.map((link) => (
             <li key={link.name} className="md:ml-8 text-xl md:my-0 my-7">
-              {link.name === "Logout" ? (
-                <button
-                  onClick={handleLogout}
-                  className="text-gray-800 hover:text-gray-400 duration-500"
-                >
-                  Logout
-                </button>
-              ) : (
-                <NavLink
-                  to={link.link}
-                  className={`text-gray-800 hover:text-gray-400 duration-500 ${
-                    location.pathname === link.link ? "font-bold" : ""
-                  }`}
-                >
-                  {link.name}
-                </NavLink>
-              )}
+              <NavLink
+                to={link.link}
+                className={`text-gray-800 hover:text-gray-400 duration-500 ${
+                  location.pathname === link.link ? "font-bold" : ""
+                }`}
+              >
+                {link.name}
+              </NavLink>
             </li>
           ))}
-          {!auth?.user && (
+          {auth?.user ? (
+            <li className="md:ml-8 text-xl md:my-0 my-7">
+              <UserDropdown user={auth.user} handleLogout={handleLogout} />
+            </li>
+          ) : (
             <li className="md:ml-8 text-xl md:my-0 my-7">
               <Button>Get Started</Button>
             </li>

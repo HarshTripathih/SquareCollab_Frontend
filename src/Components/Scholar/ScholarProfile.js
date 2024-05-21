@@ -60,7 +60,7 @@ const ScholarProfile = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const { data } = await axios.put("/api/v1/auth/scholar-profile", {
+      const { data } = await axios.put("/api/v1/scholars/scholarprofile", {
         name: name || auth?.user.name,
         affiliation: affiliation || auth?.user.affiliation,
         title: title || auth?.user.title,

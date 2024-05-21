@@ -15,6 +15,7 @@ import Faq from './Components/Faq/Faq';
 import Researchers from './Components/Researcher/Researchers';
 import Profile from './Components/Researcher/Profile';
 import ScholarProfile from './Components/Scholar/ScholarProfile';
+import Scholars from './Components/Scholar/Scholars';
 
 
 
@@ -47,66 +48,27 @@ const App = () => {
 
       <Routes>
         <Route path="/" element={<Home />} />
+        {!auth?.token && <Route path="/register" element={<Register />} />}
+        {!auth?.token && <Route path="/login" element={<Login />} />}
         {!auth?.token && (
-          <Route path="/register" element={<Register />} />
-        )}
-        {!auth?.token && (
-          <Route path="/login" element={<Login />} />
-        )}
-        {!auth?.token && (
-          <Route
-            path="/*"
-            element={<Navigate to="/login" replace />}
-          />
+          <Route path="/*" element={<Navigate to="/login" replace />} />
         )}
         {auth?.token && (
-          <Route
-            path="/register"
-            element={<Navigate to="/" replace />}
-          />
+          <Route path="/register" element={<Navigate to="/" replace />} />
         )}
         {auth?.token && (
-          <Route
-            path="/login"
-            element={<Navigate to="/" replace />}
-          />
+          <Route path="/login" element={<Navigate to="/" replace />} />
         )}
-        <Route
-          path="/forgot-password"
-          element={<ForgotPassword />}
-        />
-        <Route
-          path="/contact"
-          element={<Contact />}
-        />
-        <Route
-          path="/discover"
-          element={<Discover />}
-        />
-        <Route
-          path="/about"
-          element={<About />}
-        />
-        <Route
-          path="/faq"
-          element={<Faq />}
-        />
-        <Route
-          path="/researchers"
-          element={<Researchers />}
-        />
-        <Route 
-          path="/researcherprofile" 
-          element={<Profile/>} />
-        <Route 
-          path="/scholarprofile" 
-          element={<ScholarProfile/>} />
-        <Route
-          path="/dashboard/*"
-          element={
-            <PrivateRoute/>
-          }
-        />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/discover" element={<Discover />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/faq" element={<Faq />} />
+        <Route path="/researchers" element={<Researchers />} />
+        <Route path="/scholars" element={<Scholars />} />
+        <Route path="/researcherprofile" element={<Profile />} />
+        <Route path="/scholarprofile" element={<ScholarProfile />} />
+        <Route path="/dashboard/*" element={<PrivateRoute />} />
         {redirectPath && <Navigate to={navigationPath} replace />}
       </Routes>
 
