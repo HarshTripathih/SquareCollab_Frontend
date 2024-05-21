@@ -2,7 +2,7 @@ import React from 'react'
 
 const Discover = () => {
   return (
-    <div>Discover</div>
+    <div className='mt-5'>Discover</div>
   )
 }
 

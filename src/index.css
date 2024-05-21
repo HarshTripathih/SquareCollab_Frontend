@@ -158,6 +158,25 @@ code {
   color: red
 }
 
+
+/* crousels css */
+
+.carousel-item img {
+  height: 70vh;
+}
+
+.btn-outline-success {
+  height: fit-content;
+}
+
+.search {
+  height: 2.3rem;
+}
+
+.text-red {
+  color: red;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

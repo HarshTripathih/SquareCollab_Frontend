@@ -7,6 +7,14 @@ import ResearcherCard from '../Researcher/ResearcherCard';
 import Researchers from '../Researcher/Researchers';
 import Crowsels from './Crowsels';
 import Profile from '../Researcher/Profile';
+import {
+  FaUser,
+  FaUserEdit,
+  FaSearch,
+  FaComments,
+  FaLightbulb,
+} from "react-icons/fa";
+
 
 const Home = () => {
   const [showPopup, setShowPopup] = useState(false);
@@ -14,14 +22,53 @@ const Home = () => {
   const [redirectPath, setRedirectPath] = useState('');
   const navigate = useNavigate();
 
+  const featuress = [
+    "Research Collaboration Tools",
+    "Mentorship Programs",
+    "Knowledge Sharing",
+    "Project Management",
+  ];
+
+   const steps = [
+     {
+       icon: FaUser,
+       title: "Register/Login",
+       description: "Register/Login on the platform",
+     },
+     {
+       icon: FaUserEdit,
+       title: "Complete Your Profile",
+       description: "Complete your profile",
+     },
+     {
+       icon: FaSearch,
+       title: "Find Supervisor/Scholar",
+       description: "Find Supervisor/Scholar as per requirements",
+     },
+     {
+       icon: FaComments,
+       title: "Chat or Connect",
+       description: "Chat or connect with them",
+     },
+     {
+       icon: FaLightbulb,
+       title: "Collaborate & Innovate",
+       description: "Start collaborating and innovating",
+     },
+   ];
+
   const features = [
     {
-      title: 'Powerful search tool',
-      description: 'Easily find collaborative research projects.',
+      title: "Powerful search tool",
+      description: "Easily find collaborative research projects.",
     },
     {
-      title: 'Stay connected',
-      description: 'Stay updated with researchers and projects.',
+      title: "Stay connected",
+      description: "Stay updated with researchers and projects.",
+    },
+    {
+      title: "Advanced Analytics (Futuristic Plans)",
+      description: "Gain insights into research trends and performance.",
     },
   ];
 
@@ -51,68 +98,78 @@ const Home = () => {
     <div>
       <Navbar />
       <Crowsels />
-      <Researchers />
 
-      <div className='container mx-auto w-full h-96 mt-10 border-solid rounded-2xl bg-slate-50'>
-        <div className="w-full h-11">
-          <h1 className="title">Research Connect</h1>
-          <p className="description">
+      <div className="container mx-auto w-full h-auto mt-10 p-6 border-solid rounded-2xl bg-slate-50 shadow-lg">
+        <div className="w-full h-auto">
+          <h1 className="text-3xl font-bold mb-4 text-center">
+            Research Connect
+          </h1>
+          <p className="text-lg mb-6 text-center px-4">
             Connect with your research. Collaborate effectively with researchers
             and get started! Research Connect has revolutionized our research
             process, increasing productivity by 45%.
           </p>
-          <div className="features">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 px-4">
             {features.map((feature, index) => (
-              <div key={index} className="feature-item">
-                <h3 className="feature-title">{feature.title}</h3>
-                <p className="feature-description">{feature.description}</p>
+              <div
+                key={index}
+                className="feature-item p-4 bg-white rounded-lg shadow-md"
+              >
+                <h3 className="text-xl font-semibold mb-2">{feature.title}</h3>
+                <p className="text-gray-600">{feature.description}</p>
               </div>
             ))}
           </div>
         </div>
       </div>
 
-      {showPopup && (
-        <div className="modal" style={{ display: 'block' }}>
-          <div className="modal-dialog modal-dialog-centered">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title">Choose your role</h5>
+      <div className="bg-gray-100 text-gray-900">
+        {/* Hero Section */}
+        <section className="bg-white p-8 text-center">
+          <h1 className="text-4xl font-bold mb-2">Empower Your Research</h1>
+          <p className="text-lg mb-4">
+            Seamless collaboration between researchers and supervisors.
+          </p>
+          <button className="bg-blue-500 text-white py-2 px-4 rounded">
+            Join Now
+          </button>
+        </section>
+
+        <section className="p-8">
+          <h2 className="text-3xl font-semibold mb-4 text-center">
+            Key Features
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {featuress.map((feature, index) => (
+              <div
+                key={index}
+                className="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 ease-in-out transform hover:scale-105"
+              >
+                <h3 className="text-lg font-medium mb-2">{feature}</h3>
               </div>
-              <div className="modal-body">
-                <label>
-                  Researcher
-                  <input
-                    type="radio"
-                    name="role"
-                    value="researcher"
-                    onChange={(e) => setRole(e.target.value)}
-                  />
-                </label>
-                <label>
-                  Scholar
-                  <input
-                    type="radio"
-                    name="role"
-                    value="scholar"
-                    onChange={(e) => setRole(e.target.value)}
-                  />
-                </label>
-              </div>
-              <div className="modal-footer">
-                <button
-                  type="button"
-                  className="btn btn-primary"
-                  onClick={handlePopupContinue}
-                  disabled={!role}
-                >
-                  Continue
-                </button>
-              </div>
-            </div>
+            ))}
           </div>
-        </div>
-      )}
+        </section>
+
+        {/* How It Works */}
+        <section className="p-8">
+          <h2 className="text-3xl font-semibold mb-12 text-center">
+            How It Works
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8">
+            {steps.map((step, index) => (
+              <div
+                key={index}
+                className="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 ease-in-out transform hover:scale-105 text-center"
+              >
+                <step.icon className="text-indigo-600 text-4xl mb-4 mx-auto" />
+                <h3 className="text-xl font-medium mb-2">{step.title}</h3>
+                <p className="leading-relaxed text-base">{step.description}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+      </div>
     </div>
   );
 };
