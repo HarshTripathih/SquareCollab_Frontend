@@ -17,6 +17,7 @@ import Profile from './Components/Researcher/Profile';
 import ScholarProfile from './Components/Scholar/ScholarProfile';
 import Scholars from './Components/Scholar/Scholars';
 import ResearcherDetails from './Components/Researcher/ResearcherDetails';
+import Chat from './Components/chatAuth/Chat';
 
 
 
@@ -70,6 +71,7 @@ const App = () => {
         <Route path="/scholars" element={<Scholars />} />
         <Route path="/researcherprofile" element={<Profile />} />
         <Route path="/scholarprofile" element={<ScholarProfile />} />
+        <Route path='/chating' element={<Chat/>}/>
         <Route path="/dashboard/*" element={<PrivateRoute />} />
         {redirectPath && <Navigate to={navigationPath} replace />}
       </Routes>
