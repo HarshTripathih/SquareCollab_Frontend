@@ -28,7 +28,7 @@ const Navbar = () => {
       { name: "Home", link: "/" },
       { name: "Discover", link: "/discover" },
       { name: "About", link: "/about" },
-      { name: "Researchers", link: "/researchers" },
+      { name: "Supervisor", link: "/researchers" },
       { name: "Scholars", link: "/scholars" },
       { name: "Contact", link: "/contact" },
       { name: "Chating", link: "/chating" },

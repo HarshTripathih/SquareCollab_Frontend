@@ -16,6 +16,7 @@
     "braintree-web-drop-in-react": "^1.2.1",
     "emailjs": "^4.0.3",
     "helmet": "^7.1.0",
+    "lodash-es": "^4.17.21",
     "lodash.debounce": "^4.0.8",
     "react": "^18.2.0",
     "react-chat-engine-pretty": "^0.1.8",
