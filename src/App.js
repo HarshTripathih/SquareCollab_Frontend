@@ -18,6 +18,9 @@ import ScholarProfile from './Components/Scholar/ScholarProfile';
 import Scholars from './Components/Scholar/Scholars';
 import ResearcherDetails from './Components/Researcher/ResearcherDetails';
 import Chat from './Components/chatAuth/Chat';
+import CreateBlog from './Components/Admin/CreateBlog';
+import UpdateBlog from './Components/Admin/UpdateBlog';
+import AdminRoute from './Components/Routes/AdminRoute';
 
 
 
@@ -71,9 +74,14 @@ const App = () => {
         <Route path="/scholars" element={<Scholars />} />
         <Route path="/researcherprofile" element={<Profile />} />
         <Route path="/scholarprofile" element={<ScholarProfile />} />
-        <Route path='/chating' element={<Chat/>}/>
+        <Route path="/chating" element={<Chat />} />
         <Route path="/dashboard/*" element={<PrivateRoute />} />
         {redirectPath && <Navigate to={navigationPath} replace />}
+
+        <Route path="/dashboard" element={<AdminRoute />}>
+          <Route path="admin/create-blog" element={<CreateBlog />} />
+          <Route path="admin/blog/:slug" element={<UpdateBlog />} />
+        </Route>
       </Routes>
 
       <Footer />
