@@ -52,7 +52,7 @@ const CreateBlog = () => {
             <h1>Create Blog</h1>
             <div className="m-1 w-75">
 
-              <div className="mb-3">
+              {/* <div className="mb-3">
                 <label className="btn btn-outline-secondary col-md-12">
                   {photo ? photo.name : "Upload Photo"}
                   <input
@@ -75,7 +75,7 @@ const CreateBlog = () => {
                     />
                   </div>
                 )}
-              </div>
+              </div> */}
               <div className="mb-3">
                 <input
                   type="text"

@@ -1,92 +1,67 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import img1 from "../Images/1.jpg";
 
 const Discover = () => {
-  const { id } = useParams();
-  const [blog, setBlog] = useState(null);
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Fetch all blogs
-  const fetchBlogs = async () => {
-    try {
-      const response = await axios.get("/api/v1/blog");
-      setBlogs(response.data);
-      setLoading(false);
-    } catch (error) {
-      setError("Error fetching blogs");
-      setLoading(false);
-    }
-  };
-
-  // Fetch a single blog by ID
-  const fetchBlogById = async (id) => {
-    try {
-      const response = await axios.get(`/api/v1/blog/${id}`);
-      setBlog(response.data);
-      setLoading(false);
-    } catch (error) {
-      setError("Error fetching blog");
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
-    if (id) {
-      fetchBlogById(id);
-    } else {
-      fetchBlogs();
-    }
-  }, [id]);
+    const fetchBlogs = async () => {
+      try {
+        const response = await axios.get("/api/v1/blog/get-blogs");
+        setBlogs(response.data.blogs);
+        setLoading(false);
+      } catch (err) {
+        setError(err.message);
+        setLoading(false);
+      }
+    };
+
+    fetchBlogs();
+  }, []);
 
   if (loading) {
-    return <p>Loading...</p>;
+    return <div className="text-center my-5">Loading...</div>;
   }
 
   if (error) {
-    return <p>{error}</p>;
+    return <div className="text-center my-5">Error: {error}</div>;
   }
 
   return (
-    <div>
-      {id ? (
-        blog && (
-          <div className="blog-post">
-            <h1>{blog.title}</h1>
-            <p>{blog.content}</p>
-            <p>
-              <strong>Author:</strong> {blog.author}
-            </p>
-            <p>
-              <strong>Tags:</strong> {blog.tags.join(", ")}
-            </p>
-            <p>
-              <strong>Published:</strong> {blog.published ? "Yes" : "No"}
-            </p>
-          </div>
-        )
-      ) : (
-        <div>
-          <h1>Blog Posts</h1>
-          {blogs.map((blog) => (
-            <div key={blog._id} className="blog-post">
-              <h2>{blog.title}</h2>
+    <div className="container mx-auto mt-5">
+      <h1 className="text-3xl font-bold text-center mb-4">Discover Blogs</h1>
+      <div className="space-y-4">
+        {blogs.map((blog, index) => (
+          <div key={blog._id} className="border border-gray-200 rounded-md">
+            <button
+              className="w-full text-left px-4 py-2 bg-gray-100 hover:bg-gray-200 focus:outline-none"
+              onClick={() => {
+                const content = document.getElementById(`content-${index}`);
+                content.classList.toggle("hidden");
+              }}
+            >
+              <h2 className="text-xl font-semibold">{blog.title}</h2>
+            </button>
+            <div id={`content-${index}`} className="hidden px-4 py-2">
+              <img
+                src={img1}
+                className="h-30 w-1/3 mx-auto mb-3"
+                alt={blog.title}
+              />
               <p>{blog.content}</p>
-              <p>
-                <strong>Author:</strong> {blog.author}
+              <p className="mt-2 text-sm  text-gray-600">
+                Author: {blog.author}
               </p>
-              <p>
+              <p className="mt-1 text-sm text-gray-600">
                 <strong>Tags:</strong> {blog.tags.join(", ")}
               </p>
-              <p>
-                <strong>Published:</strong> {blog.published ? "Yes" : "No"}
-              </p>
             </div>
-          ))}
-        </div>
-      )}
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
