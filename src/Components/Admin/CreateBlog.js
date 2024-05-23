@@ -8,7 +8,6 @@ const { Option } = Select;
 
 const CreateBlog = () => {
   const navigate = useNavigate();
-  const [categories, setCategories] = useState([]);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [author, setAuthor] = useState("");
@@ -16,23 +15,7 @@ const CreateBlog = () => {
   const [tags, setTags] = useState([]);
   const [photo, setPhoto] = useState("");
 
-  // Get all categories
-  const getAllCategory = async () => {
-    try {
-      const { data } = await axios.get("/api/v1/category/get-category");
-      if (data?.success) {
-        setCategories(data?.category);
-      }
-    } catch (error) {
-      console.log(error);
-      toast.error("Something went wrong in getting categories");
-    }
-  };
-
-  useEffect(() => {
-    getAllCategory();
-  }, []);
-
+  
   // Create blog function
   const handleCreate = async (e) => {
     e.preventDefault();
@@ -68,22 +51,7 @@ const CreateBlog = () => {
           <div className="col-md-9">
             <h1>Create Blog</h1>
             <div className="m-1 w-75">
-              <Select
-                bordered={false}
-                placeholder="Select a category"
-                size="large"
-                showSearch
-                className="form-select mb-3"
-                onChange={(value) => {
-                  setCategory(value);
-                }}
-              >
-                {categories?.map((c) => (
-                  <Option key={c._id} value={c._id}>
-                    {c.name}
-                  </Option>
-                ))}
-              </Select>
+
               <div className="mb-3">
                 <label className="btn btn-outline-secondary col-md-12">
                   {photo ? photo.name : "Upload Photo"}

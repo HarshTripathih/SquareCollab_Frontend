@@ -78,10 +78,9 @@ const App = () => {
         <Route path="/dashboard/*" element={<PrivateRoute />} />
         {redirectPath && <Navigate to={navigationPath} replace />}
 
-        <Route path="/dashboard" element={<AdminRoute />}>
-          <Route path="admin/create-blog" element={<CreateBlog />} />
-          <Route path="admin/blog/:slug" element={<UpdateBlog />} />
-        </Route>
+        <Route path="/dashboard" element={<AdminRoute />}></Route>
+        <Route path="create-blog" element={<CreateBlog />} />
+        <Route path="blog/:slug" element={<UpdateBlog />} />
       </Routes>
 
       <Footer />
