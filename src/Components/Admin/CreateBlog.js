@@ -33,7 +33,6 @@ const CreateBlog = () => {
         toast.error(data?.message);
       } else {
         toast.success("Blog Created Successfully");
-        navigate("/dashboard/admin/blogs");
       }
     } catch (error) {
       console.log(error);
@@ -52,30 +51,6 @@ const CreateBlog = () => {
             <h1>Create Blog</h1>
             <div className="m-1 w-75">
 
-              {/* <div className="mb-3">
-                <label className="btn btn-outline-secondary col-md-12">
-                  {photo ? photo.name : "Upload Photo"}
-                  <input
-                    type="file"
-                    name="photo"
-                    accept="image/*"
-                    onChange={(e) => setPhoto(e.target.files[0])}
-                    hidden
-                  />
-                </label>
-              </div>
-              <div className="mb-3">
-                {photo && (
-                  <div className="text-center">
-                    <img
-                      src={URL.createObjectURL(photo)}
-                      alt="blog_photo"
-                      height={"200px"}
-                      className="img img-responsive"
-                    />
-                  </div>
-                )}
-              </div> */}
               <div className="mb-3">
                 <input
                   type="text"

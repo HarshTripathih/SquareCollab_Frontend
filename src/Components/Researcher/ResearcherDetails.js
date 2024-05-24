@@ -39,7 +39,7 @@ const ResearcherDetails = () => {
           alt={researcher.name}
           className="w-40 h-40 rounded-full mb-4 md:mb-0 md:mr-6 object-cover shadow-lg"
         />
-        <h1 className="text-3xl font-bold mb-6 text-center">
+        <h1 className="text-3xl font-bold mb-6 text-center mr-5">
           {researcher.name}
         </h1>
         <div className="text-center md:text-left">

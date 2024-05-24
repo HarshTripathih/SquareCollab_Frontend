@@ -16,7 +16,7 @@ const Researchers = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "/api/v1/researchers/"
+          "http://localhost:8000/api/v1/researchers/"
         );
         setResearchers(response.data);
       } catch (error) {
@@ -30,7 +30,7 @@ const Researchers = () => {
   const searchResearchers = _debounce(async (keyword) => {
     try {
       const response = await axios.get(
-        `/api/v1/search/${keyword}`
+        `http://localhost:8000/api/v1/search/${keyword}`
       );
       setResearchers(response.data);
     } catch (error) {
@@ -48,7 +48,8 @@ const Researchers = () => {
     const lowerCaseTerm = searchTerm.toLowerCase();
     return (
       researcher.name.toLowerCase().includes(lowerCaseTerm) ||
-      researcher.affiliation.toLowerCase().includes(lowerCaseTerm)
+      researcher.affiliation.toLowerCase().includes(lowerCaseTerm) ||
+      researcher.position.toLowerCase().includes(lowerCaseTerm)
     );
   });
 
@@ -95,9 +96,9 @@ const Researchers = () => {
                   ))}
               </div>
               <div className="flex justify-between">
-                <Link to="/chatting">
-                  <button className="btn btn-primary chat">Chat</button>
-                </Link>
+                 <Link to="/chatting">
+        <button className="btn btn-primary chat">Chat</button>
+      </Link>
                 <button
                   className="btn btn-secondary"
                   onClick={() => navigate(`/researchers/${researcher._id}`)}

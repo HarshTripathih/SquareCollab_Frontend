@@ -1,141 +1,550 @@
-import React from 'react';
-import { useForm, useFieldArray } from 'react-hook-form';
-import axios from 'axios';
+import React, { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
-const ScholarForm = () => {
-  const { register, handleSubmit, control, reset } = useForm();
-  const { fields: educationFields, append: addEducation } = useFieldArray({
-    control,
-    name: 'education',
-  });
-  const { fields: publicationFields, append: addPublication } = useFieldArray({
-    control,
-    name: 'publications',
-  });
-  const { fields: experienceFields, append: addExperience } = useFieldArray({
-    control,
-    name: 'professionalExperience',
-  });
-  const { fields: honorsFields, append: addHonor } = useFieldArray({
-    control,
-    name: 'honorsAndAwards',
+const ScholarProfile = () => {
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    name: "",
+    affiliation: "",
+    title: "",
+    contact: {
+      email: "",
+      phone: "",
+      website: "",
+    },
+    researchInterests: [""],
+    education: [{ degree: "", institution: "", graduationYear: "" }],
+    publications: [{ title: "", type: "", year: "" }],
+    professionalExperience: [
+      { position: "", organization: "", startDate: "", endDate: "" },
+    ],
+    honorsAndAwards: [{ title: "", year: "" }],
+    professionalMemberships: [""],
+    skills: [""],
+    socialMediaProfiles: {
+      linkedIn: "",
+      researchGate: "",
+    },
   });
 
-  const onSubmit = async (data) => {
+  const [message, setMessage] = useState(null);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    const keys = name.split(".");
+    if (keys.length === 1) {
+      setFormData({ ...formData, [name]: value });
+    } else {
+      setFormData((prevState) => {
+        let data = { ...prevState };
+        let temp = data;
+        keys.forEach((key, index) => {
+          if (index === keys.length - 1) {
+            temp[key] = value;
+          } else {
+            temp = temp[key];
+          }
+        });
+        return data;
+      });
+    }
+  };
+
+  const handleArrayChange = (e, index, arrayName) => {
+    const { value } = e.target;
+    setFormData((prevState) => {
+      const updatedArray = [...prevState[arrayName]];
+      updatedArray[index] = value;
+      return { ...prevState, [arrayName]: updatedArray };
+    });
+  };
+
+  const handleNestedArrayChange = (e, index, fieldName, arrayName) => {
+    const { value } = e.target;
+    setFormData((prevState) => {
+      const updatedArray = [...prevState[arrayName]];
+      updatedArray[index][fieldName] = value;
+      return { ...prevState, [arrayName]: updatedArray };
+    });
+  };
+
+  const handleArrayAdd = (arrayName, newElement) => {
+    setFormData((prevState) => ({
+      ...prevState,
+      [arrayName]: [...prevState[arrayName], newElement],
+    }));
+  };
+
+  const handleArrayRemove = (arrayName, index) => {
+    setFormData((prevState) => ({
+      ...prevState,
+      [arrayName]: prevState[arrayName].filter((_, i) => i !== index),
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setMessage(null); // Reset the message
+
+    // Basic validation
+    for (let key in formData) {
+      if (Array.isArray(formData[key])) {
+        if (formData[key].length === 0) {
+          setMessage(`Please fill in all required fields.`);
+          return;
+        }
+      } else if (!formData[key]) {
+        setMessage(`Please fill in all required fields.`);
+        return;
+      }
+    }
+
     try {
-      const response = await axios.post('http://localhost:8000/api/v1/scholars', data);
-      console.log(response.data);
-      reset();
+      const { data } = await axios.post("/api/v1/scholars", formData);
+      setMessage("Profile saved successfully!");
+      navigate("/discover");
     } catch (error) {
-      console.error(error);
+      setMessage("Failed to save profile. Please try again.");
     }
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <div>
-        <label>Name:</label>
-        <input {...register('name', { required: true })} />
+    <form
+      onSubmit={handleSubmit}
+      className="max-w-2xl mx-auto p-6 bg-white shadow-md rounded-md"
+    >
+      {message && <p className="mb-4 text-red-500">{message}</p>}
+      <div className="mb-4">
+        <label className="block text-gray-700">Name</label>
+        <input
+          type="text"
+          name="name"
+          value={formData.name}
+          onChange={handleChange}
+          className="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
+        />
       </div>
-      <div>
-        <label>Affiliation:</label>
-        <input {...register('affiliation', { required: true })} />
+      <div className="mb-4">
+        <label className="block text-gray-700">Affiliation</label>
+        <input
+          type="text"
+          name="affiliation"
+          value={formData.affiliation}
+          onChange={handleChange}
+          className="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
+        />
       </div>
-      <div>
-        <label>Title:</label>
-        <input {...register('title', { required: true })} />
+      <div className="mb-4">
+        <label className="block text-gray-700">Title</label>
+        <input
+          type="text"
+          name="title"
+          value={formData.title}
+          onChange={handleChange}
+          className="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
+        />
       </div>
-      <div>
-        <label>Email:</label>
-        <input type="email" {...register('contact.email', { required: true })} />
+      <div className="mb-4">
+        <label className="block text-gray-700">Email</label>
+        <input
+          type="email"
+          name="contact.email"
+          value={formData.contact.email}
+          onChange={handleChange}
+          className="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
+        />
       </div>
-      <div>
-        <label>Phone:</label>
-        <input {...register('contact.phone', { required: true })} />
+      <div className="mb-4">
+        <label className="block text-gray-700">Phone</label>
+        <input
+          type="tel"
+          name="contact.phone"
+          value={formData.contact.phone}
+          onChange={handleChange}
+          className="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
+        />
       </div>
-      <div>
-        <label>Website:</label>
-        <input {...register('contact.website')} />
+      <div className="mb-4">
+        <label className="block text-gray-700">Website</label>
+        <input
+          type="url"
+          name="contact.website"
+          value={formData.contact.website}
+          onChange={handleChange}
+          className="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
+        />
       </div>
-      <div>
-        <label>Research Interests:</label>
-        <input {...register('researchInterests', { required: true })} />
-      </div>
-      <div>
-        <h3>Education</h3>
-        {educationFields.map((field, index) => (
-          <div key={field.id}>
-            <label>Degree:</label>
-            <input {...register(`education.${index}.degree`)} />
-            <label>Institution:</label>
-            <input {...register(`education.${index}.institution`)} />
-            <label>Graduation Year:</label>
-            <input type="number" {...register(`education.${index}.graduationYear`)} />
+      <div className="mb-4">
+        <label className="block text-gray-700">Research Interests</label>
+        {formData.researchInterests.map((interest, index) => (
+          <div key={index} className="flex items-center mb-2">
+            <input
+              type="text"
+              value={interest}
+              onChange={(e) => handleArrayChange(e, index, "researchInterests")}
+              className="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
+            />
+            <button
+              type="button"
+              onClick={() => handleArrayRemove("researchInterests", index)}
+              className="ml-2 text-red-500"
+            >
+              Remove
+            </button>
           </div>
         ))}
-        <button type="button" onClick={() => addEducation({})}>Add Education</button>
+        <button
+          type="button"
+          onClick={() => handleArrayAdd("researchInterests", "")}
+          className="mt-2 text-blue-500"
+        >
+          Add Research Interest
+        </button>
       </div>
-      <div>
-        <h3>Publications</h3>
-        {publicationFields.map((field, index) => (
-          <div key={field.id}>
-            <label>Title:</label>
-            <input {...register(`publications.${index}.title`, { required: true })} />
-            <label>Type:</label>
-            <input {...register(`publications.${index}.type`, { required: true })} />
-            <label>Year:</label>
-            <input type="number" {...register(`publications.${index}.year`, { required: true })} />
+      <div className="mb-4">
+        <label className="block text-gray-700">Education</label>
+        {formData.education.map((edu, index) => (
+          <div key={index} className="mb-2">
+            <input
+              type="text"
+              placeholder="Degree"
+              value={edu.degree}
+              name={`education.${index}.degree`}
+              onChange={(e) =>
+                handleNestedArrayChange(e, index, "degree", "education")
+              }
+              className="mt-1 block w-full border-gray-300 rounded-md shadow-sm mb-2"
+            />
+            <input
+              type="text"
+              placeholder="Institution"
+              value={edu.institution}
+              name={`education.${index}.institution`}
+              onChange={(e) =>
+                handleNestedArrayChange(e, index, "institution", "education")
+              }
+              className="mt-1 block w-full border-gray-300 rounded-md shadow-sm mb-2"
+            />
+            <input
+              type="number"
+              placeholder="Graduation Year"
+              value={edu.graduationYear}
+              name={`education.${index}.graduationYear`}
+              onChange={(e) =>
+                handleNestedArrayChange(e, index, "graduationYear", "education")
+              }
+              className="mt-1 block w-full border-gray-300 rounded-md shadow-sm mb-2"
+            />
+            <button
+              type="button"
+              onClick={() => handleArrayRemove("education", index)}
+              className="ml-2 text-red-500"
+            >
+              Remove
+            </button>
           </div>
         ))}
-        <button type="button" onClick={() => addPublication({})}>Add Publication</button>
+        <button
+          type="button"
+          onClick={() =>
+            handleArrayAdd("education", {
+              degree: "",
+              institution: "",
+              graduationYear: "",
+            })
+          }
+          className="mt-2 text-blue-500"
+        >
+          Add Education
+        </button>
       </div>
-      <div>
-        <h3>Professional Experience</h3>
-        {experienceFields.map((field, index) => (
-          <div key={field.id}>
-            <label>Position:</label>
-            <input {...register(`professionalExperience.${index}.position`)} />
-            <label>Organization:</label>
-            <input {...register(`professionalExperience.${index}.organization`)} />
-            <label>Start Date:</label>
-            <input type="date" {...register(`professionalExperience.${index}.startDate`)} />
-            <label>End Date:</label>
-            <input type="date" {...register(`professionalExperience.${index}.endDate`)} />
+      {/* Add similar structures for publications, researchProjects, professionalExperience, honorsAndAwards, professionalMemberships, skills, socialMediaProfiles */}
+
+      {/* Publications Fields */}
+      <div className="mb-4">
+        <label className="block text-gray-700">Publications</label>
+        {formData.publications.map((pub, index) => (
+          <div key={index} className="mb-2">
+            <input
+              type="text"
+              placeholder="Title"
+              value={pub.title}
+              name={`publications.${index}.title`}
+              onChange={(e) =>
+                handleNestedArrayChange(e, index, "title", "publications")
+              }
+              className="mt-1 block w-full border-gray-300 rounded-md shadow-sm mb-2"
+            />
+            <input
+              type="text"
+              placeholder="Type"
+              value={pub.type}
+              name={`publications.${index}.type`}
+              onChange={(e) =>
+                handleNestedArrayChange(e, index, "type", "publications")
+              }
+              className="mt-1 block w-full border-gray-300 rounded-md shadow-sm mb-2"
+            />
+            <input
+              type="number"
+              placeholder="Year"
+              value={pub.year}
+              name={`publications.${index}.year`}
+              onChange={(e) =>
+                handleNestedArrayChange(e, index, "year", "publications")
+              }
+              className="mt-1 block w-full border-gray-300 rounded-md shadow-sm mb-2"
+            />
+            <button
+              type="button"
+              onClick={() => handleArrayRemove("publications", index)}
+              className="ml-2 text-red-500"
+            >
+              Remove
+            </button>
           </div>
         ))}
-        <button type="button" onClick={() => addExperience({})}>Add Experience</button>
+        <button
+          type="button"
+          onClick={() =>
+            handleArrayAdd("publications", { title: "", type: "", year: "" })
+          }
+          className="mt-2 text-blue-500"
+        >
+          Add Publication
+        </button>
       </div>
-      <div>
-        <h3>Honors and Awards</h3>
-        {honorsFields.map((field, index) => (
-          <div key={field.id}>
-            <label>Title:</label>
-            <input {...register(`honorsAndAwards.${index}.title`)} />
-            <label>Year:</label>
-            <input type="number" {...register(`honorsAndAwards.${index}.year`)} />
+
+      {/* Professional Experience Fields */}
+      <div className="mb-4">
+        <label className="block text-gray-700">Professional Experience</label>
+        {formData.professionalExperience.map((exp, index) => (
+          <div key={index} className="mb-2">
+            <input
+              type="text"
+              placeholder="Position"
+              value={exp.position}
+              name={`professionalExperience.${index}.position`}
+              onChange={(e) =>
+                handleNestedArrayChange(
+                  e,
+                  index,
+                  "position",
+                  "professionalExperience"
+                )
+              }
+              className="mt-1 block w-full border-gray-300 rounded-md shadow-sm mb-2"
+            />
+            <input
+              type="text"
+              placeholder="Organization"
+              value={exp.organization}
+              name={`professionalExperience.${index}.organization`}
+              onChange={(e) =>
+                handleNestedArrayChange(
+                  e,
+                  index,
+                  "organization",
+                  "professionalExperience"
+                )
+              }
+              className="mt-1 block w-full border-gray-300 rounded-md shadow-sm mb-2"
+            />
+            <input
+              type="date"
+              placeholder="Start Date"
+              value={exp.startDate}
+              name={`professionalExperience.${index}.startDate`}
+              onChange={(e) =>
+                handleNestedArrayChange(
+                  e,
+                  index,
+                  "startDate",
+                  "professionalExperience"
+                )
+              }
+              className="mt-1 block w-full border-gray-300 rounded-md shadow-sm mb-2"
+            />
+            <input
+              type="date"
+              placeholder="End Date"
+              value={exp.endDate}
+              name={`professionalExperience.${index}.endDate`}
+              onChange={(e) =>
+                handleNestedArrayChange(
+                  e,
+                  index,
+                  "endDate",
+                  "professionalExperience"
+                )
+              }
+              className="mt-1 block w-full border-gray-300 rounded-md shadow-sm mb-2"
+            />
+            <button
+              type="button"
+              onClick={() => handleArrayRemove("professionalExperience", index)}
+              className="ml-2 text-red-500"
+            >
+              Remove
+            </button>
           </div>
         ))}
-        <button type="button" onClick={() => addHonor({})}>Add Honor/Award</button>
+        <button
+          type="button"
+          onClick={() =>
+            handleArrayAdd("professionalExperience", {
+              position: "",
+              organization: "",
+              startDate: "",
+              endDate: "",
+            })
+          }
+          className="mt-2 text-blue-500"
+        >
+          Add Professional Experience
+        </button>
       </div>
-      <div>
-        <label>Professional Memberships:</label>
-        <input {...register('professionalMemberships')} />
+
+      {/* Honors and Awards Fields */}
+      <div className="mb-4">
+        <label className="block text-gray-700">Honors and Awards</label>
+        {formData.honorsAndAwards.map((award, index) => (
+          <div key={index} className="mb-2">
+            <input
+              type="text"
+              placeholder="Title"
+              value={award.title}
+              name={`honorsAndAwards.${index}.title`}
+              onChange={(e) =>
+                handleNestedArrayChange(e, index, "title", "honorsAndAwards")
+              }
+              className="mt-1 block w-full border-gray-300 rounded-md shadow-sm mb-2"
+            />
+            <input
+              type="number"
+              placeholder="Year"
+              value={award.year}
+              name={`honorsAndAwards.${index}.year`}
+              onChange={(e) =>
+                handleNestedArrayChange(e, index, "year", "honorsAndAwards")
+              }
+              className="mt-1 block w-full border-gray-300 rounded-md shadow-sm mb-2"
+            />
+            <button
+              type="button"
+              onClick={() => handleArrayRemove("honorsAndAwards", index)}
+              className="ml-2 text-red-500"
+            >
+              Remove
+            </button>
+          </div>
+        ))}
+        <button
+          type="button"
+          onClick={() =>
+            handleArrayAdd("honorsAndAwards", { title: "", year: "" })
+          }
+          className="mt-2 text-blue-500"
+        >
+          Add Honor or Award
+        </button>
       </div>
-      <div>
-        <label>Skills:</label>
-        <input {...register('skills')} />
+
+      {/* Professional Memberships Fields */}
+      <div className="mb-4">
+        <label className="block text-gray-700">Professional Memberships</label>
+        {formData.professionalMemberships.map((membership, index) => (
+          <div key={index} className="flex items-center mb-2">
+            <input
+              type="text"
+              value={membership}
+              onChange={(e) =>
+                handleArrayChange(e, index, "professionalMemberships")
+              }
+              className="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
+            />
+            <button
+              type="button"
+              onClick={() =>
+                handleArrayRemove("professionalMemberships", index)
+              }
+              className="ml-2 text-red-500"
+            >
+              Remove
+            </button>
+          </div>
+        ))}
+        <button
+          type="button"
+          onClick={() => handleArrayAdd("professionalMemberships", "")}
+          className="mt-2 text-blue-500"
+        >
+          Add Membership
+        </button>
       </div>
-      <div>
-        <label>LinkedIn:</label>
-        <input {...register('socialMediaProfiles.linkedIn')} />
+
+      {/* Skills Fields */}
+      <div className="mb-4">
+        <label className="block text-gray-700">Skills</label>
+        {formData.skills.map((skill, index) => (
+          <div key={index} className="flex items-center mb-2">
+            <input
+              type="text"
+              value={skill}
+              onChange={(e) => handleArrayChange(e, index, "skills")}
+              className="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
+            />
+            <button
+              type="button"
+              onClick={() => handleArrayRemove("skills", index)}
+              className="ml-2 text-red-500"
+            >
+              Remove
+            </button>
+          </div>
+        ))}
+        <button
+          type="button"
+          onClick={() => handleArrayAdd("skills", "")}
+          className="mt-2 text-blue-500"
+        >
+          Add Skill
+        </button>
       </div>
-      <div>
-        <label>ResearchGate:</label>
-        <input {...register('socialMediaProfiles.researchGate')} />
+
+      {/* Social Media Profiles Fields */}
+      <div className="mb-4">
+        <label className="block text-gray-700">Social Media Profiles</label>
+        <div className="mb-2">
+          <input
+            type="url"
+            placeholder="LinkedIn"
+            value={formData.socialMediaProfiles.linkedIn}
+            name="socialMediaProfiles.linkedIn"
+            onChange={handleChange}
+            className="mt-1 block w-full border-gray-300 rounded-md shadow-sm mb-2"
+          />
+          <input
+            type="url"
+            placeholder="ResearchGate"
+            value={formData.socialMediaProfiles.researchGate}
+            name="socialMediaProfiles.researchGate"
+            onChange={handleChange}
+            className="mt-1 block w-full border-gray-300 rounded-md shadow-sm mb-2"
+          />
+        </div>
       </div>
-      <button type="submit">Submit</button>
+
+      <button
+        type="submit"
+        className="px-4 py-2 bg-blue-500 text-white rounded-md shadow-sm"
+      >
+        Submit
+      </button>
     </form>
   );
 };
 
-export default ScholarForm;
+export default ScholarProfile;
+  
