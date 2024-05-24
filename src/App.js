@@ -21,6 +21,7 @@ import Chat from './Components/chatAuth/Chat';
 import CreateBlog from './Components/Admin/CreateBlog';
 import UpdateBlog from './Components/Admin/UpdateBlog';
 import AdminRoute from './Components/Routes/AdminRoute';
+import ScholarDetails from './Components/Scholar/ScholarDetails';
 
 
 
@@ -70,7 +71,8 @@ const App = () => {
         <Route path="/about" element={<About />} />
         <Route path="/faq" element={<Faq />} />
         <Route path="/researchers" element={<Researchers />} />
-        <Route path="/researchers/:id" component={ResearcherDetails} />
+        <Route path="/researchers/:_id" element={<ResearcherDetails/>} />
+        <Route path="/scholars/:_id" element={<ScholarDetails/>} />
         <Route path="/scholars" element={<Scholars />} />
         <Route path="/researcherprofile" element={<Profile />} />
         <Route path="/scholarprofile" element={<ScholarProfile />} />

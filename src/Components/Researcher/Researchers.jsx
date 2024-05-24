@@ -66,7 +66,7 @@ const Researchers = () => {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-5 text-left justify-content-around">
         {filteredResearchers.map((researcher) => (
-          <div className="bg-white rounded-lg shadow-lg" key={researcher.id}>
+          <div className="bg-white rounded-lg shadow-lg" key={researcher._id}>
             <img
               src={img1}
               alt={researcher.name}
@@ -87,7 +87,7 @@ const Researchers = () => {
                 <h6 className="font-semibold">Education:</h6>
                 {researcher.education &&
                   researcher.education.map((edu) => (
-                    <div key={edu.id}>
+                    <div key={edu._id}>
                       <p>Degree: {edu.degree}</p>
                       <p>Institution: {edu.institution}</p>
                       <p>Graduation Year: {edu.graduationYear}</p>
@@ -100,7 +100,7 @@ const Researchers = () => {
                 </Link>
                 <button
                   className="btn btn-secondary"
-                  onClick={() => navigate(`/researchers/${researcher.id}`)}
+                  onClick={() => navigate(`/researchers/${researcher._id}`)}
                 >
                   More Details
                 </button>

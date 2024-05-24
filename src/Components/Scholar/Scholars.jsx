@@ -2,11 +2,13 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import _debounce from "lodash.debounce";
 import img1 from "../Images/avatar2.webp";
+import { Link, useNavigate} from "react-router-dom";
 
 const Scholars = () => {
   const [scholars, setScholars] = useState([]);
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -62,7 +64,7 @@ const Scholars = () => {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-5 text-left">
         {filteredScholars.map((scholar) => (
-          <div className="bg-white rounded-lg shadow-lg" key={scholar.id}>
+          <div className="bg-white rounded-lg shadow-lg" key={scholar._id}>
             <img
               src={img1}
               alt={scholar.name}
@@ -90,8 +92,13 @@ const Scholars = () => {
                   ))}
               </div>
               <div className="flex justify-between">
-                <button className="btn btn-primary chat">Chat</button>
-                <button className="btn btn-secondary chat">More Details</button>
+              <Link to="/chatting">
+                  <button className="btn btn-primary chat">Chat</button>
+              </Link>
+              <button
+                  className="btn btn-secondary"
+                  onClick={() => navigate(`/scholars/${scholar._id}`)}
+                >More Details</button>
               </div>
             </div>
           </div>

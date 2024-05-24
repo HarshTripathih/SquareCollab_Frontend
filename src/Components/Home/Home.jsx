@@ -79,7 +79,7 @@ const Home = () => {
 
   return (
     <div>
-      <Navbar />
+      <Navbar/>
       <Crowsels />
 
       <div className="container mx-auto w-full h-auto mt-10 p-6 border-solid rounded-2xl bg-slate-50 shadow-lg">
