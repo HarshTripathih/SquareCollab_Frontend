@@ -12,7 +12,7 @@ const Scholars = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:8000/api/v1/scholars/"
+          "/api/v1/scholars/"
         );
         setScholars(response.data);
       } catch (error) {
@@ -26,7 +26,7 @@ const Scholars = () => {
   const searchScholars = _debounce(async (keyword) => {
     try {
       const response = await axios.get(
-        `http://localhost:8000/api/v1/search/${keyword}`
+        `/api/v1/search/${keyword}`
       );
       setScholars(response.data);
     } catch (error) {
