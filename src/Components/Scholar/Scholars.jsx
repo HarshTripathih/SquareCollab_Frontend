@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import _debounce from "lodash.debounce";
+import img1 from "../Images/avatar2.webp";
 
 const Scholars = () => {
   const [scholars, setScholars] = useState([]);
@@ -63,7 +64,7 @@ const Scholars = () => {
         {filteredScholars.map((scholar) => (
           <div className="bg-white rounded-lg shadow-lg" key={scholar.id}>
             <img
-              src={scholar.photo}
+              src={img1}
               alt={scholar.name}
               className="w-full h-48 object-cover rounded-t-lg"
             />

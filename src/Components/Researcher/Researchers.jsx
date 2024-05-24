@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import _debounce from "lodash.debounce";
 import { Link, useNavigate } from "react-router-dom";
+import img1 from "../Images/avatar2.webp";
+
 
 
 const Researchers = () => {
@@ -66,7 +68,7 @@ const Researchers = () => {
         {filteredResearchers.map((researcher) => (
           <div className="bg-white rounded-lg shadow-lg" key={researcher.id}>
             <img
-              src={researcher.photo}
+              src={img1}
               alt={researcher.name}
               className="w-full h-48 object-cover rounded-t-lg"
             />
@@ -93,7 +95,9 @@ const Researchers = () => {
                   ))}
               </div>
               <div className="flex justify-between">
-                <button className="btn btn-primary chat">Chat</button>
+                <Link to="/chatting">
+                  <button className="btn btn-primary chat">Chat</button>
+                </Link>
                 <button
                   className="btn btn-secondary"
                   onClick={() => navigate(`/researchers/${researcher.id}`)}
