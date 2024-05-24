@@ -11,7 +11,7 @@ const ResearcherDetails = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:8000/api/v1/researchers/${id}`
+          `/api/v1/researchers/${id}`
         );
         setResearcher(response.data);
       } catch (error) {
