@@ -11,6 +11,8 @@ const UserDropdown = ({ user, handleLogout }) => {
       navigate("/researcherprofile");
     } else if (user.role === 2) {
       navigate("/scholarprofile");
+    } else if (user.role === 3){
+      navigate("/create-blog")
     }
     setIsOpen(false);
   };
@@ -87,6 +89,7 @@ const UserDropdown = ({ user, handleLogout }) => {
             >
               Logout
             </button>
+            
           </div>
         </div>
       )}

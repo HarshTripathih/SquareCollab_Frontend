@@ -74,7 +74,7 @@ const App = () => {
         <Route path="/scholars" element={<Scholars />} />
         <Route path="/researcherprofile" element={<Profile />} />
         <Route path="/scholarprofile" element={<ScholarProfile />} />
-        <Route path="/chating" element={<Chat />} />
+        <Route path="/chatting" element={<Chat />} />
         <Route path="/dashboard/*" element={<PrivateRoute />} />
         {redirectPath && <Navigate to={navigationPath} replace />}
 
