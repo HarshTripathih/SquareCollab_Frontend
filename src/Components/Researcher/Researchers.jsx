@@ -14,7 +14,7 @@ const Researchers = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:8000/api/v1/researchers/"
+          "/api/v1/researchers/"
         );
         setResearchers(response.data);
       } catch (error) {
@@ -28,7 +28,7 @@ const Researchers = () => {
   const searchResearchers = _debounce(async (keyword) => {
     try {
       const response = await axios.get(
-        `http://localhost:8000/api/v1/search/${keyword}`
+        `/api/v1/search/${keyword}`
       );
       setResearchers(response.data);
     } catch (error) {
